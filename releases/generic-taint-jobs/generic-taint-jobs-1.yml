@@ -1,0 +1,49 @@
+name: generic-taint-jobs
+version: "1"
+commit_hash: ccca379
+uncommitted_changes: false
+jobs:
+- name: client-taint
+  version: e6b9bcd3c4623f3e227f0951ec5d457203d0baa59efae339af15b047260c33cd
+  fingerprint: e6b9bcd3c4623f3e227f0951ec5d457203d0baa59efae339af15b047260c33cd
+  sha1: sha256:8d46ccd9e2f7ceb5ceec9a4a01a6ef8070c1621aeaf918a1c084cb927726ee52
+  packages: []
+- name: master-taint
+  version: a5a7e5e137a97f08274c61f30c3b9b81490fc570999c1dc75f5104ff351c4b38
+  fingerprint: a5a7e5e137a97f08274c61f30c3b9b81490fc570999c1dc75f5104ff351c4b38
+  sha1: sha256:c81f3db8b45af6f36d9d8762629507efdad36279b665baaae3ec109136b8cf07
+  packages: []
+- name: persistent-taint
+  version: 51c24b1482082c87b6f5db684473a472f8e86040e90656251c35122f7bd066c9
+  fingerprint: 51c24b1482082c87b6f5db684473a472f8e86040e90656251c35122f7bd066c9
+  sha1: sha256:78f9591661442c925755628b84ab7b0300c4973911610f0ce118562d4f89dfbe
+  packages: []
+- name: private-taint
+  version: 36079d13a16be790c2964ddbef9f5b369c9b5fb7ccd45124aaeef9818149d2f3
+  fingerprint: 36079d13a16be790c2964ddbef9f5b369c9b5fb7ccd45124aaeef9818149d2f3
+  sha1: sha256:47b828582ad96180d8d6d57b9edc6bd7641b31108d166ef62a86863e5877a82a
+  packages: []
+- name: public-taint
+  version: 8267c5978151c29e5f854901321303b50994c8c0eebe14c06592540b92c2b8f3
+  fingerprint: 8267c5978151c29e5f854901321303b50994c8c0eebe14c06592540b92c2b8f3
+  sha1: sha256:c50a0cf1c297aa6ed762735840a7d0b365e4a5b12deee00eb8de135b4ae9eec6
+  packages: []
+- name: server-taint
+  version: 87d754c33b965c79c09453dc8d492dbf857f7a8e969491d24ccc5d6a933d5d6b
+  fingerprint: 87d754c33b965c79c09453dc8d492dbf857f7a8e969491d24ccc5d6a933d5d6b
+  sha1: sha256:a7e164033072269672da481d60fac689908d48be339a586e1713bed72d88deae
+  packages: []
+- name: slave-taint
+  version: eb0be4efa28f5a3bad74a532ea7ab78685fb91646e37899a8788e8a240099867
+  fingerprint: eb0be4efa28f5a3bad74a532ea7ab78685fb91646e37899a8788e8a240099867
+  sha1: sha256:7005bca24782d5c430208b8327f7286291bffa629a9f499eba07957c2ae1aeca
+  packages: []
+- name: stateless-taint
+  version: d3e4ce8417a06d9afad4dc8e4d0a29786455bd30a477e7e498739f5e38805f4b
+  fingerprint: d3e4ce8417a06d9afad4dc8e4d0a29786455bd30a477e7e498739f5e38805f4b
+  sha1: sha256:0fca30c52b1a8ab3e20bc12432a19de3aebedd34b1e2710d7edb8f77c28e1dd9
+  packages: []
+license:
+  version: cf0ca1fe65dee9607c7bb9460a3f20835e582cbb7f5b2c3625fba2e21d7e91b9
+  fingerprint: cf0ca1fe65dee9607c7bb9460a3f20835e582cbb7f5b2c3625fba2e21d7e91b9
+  sha1: sha256:8c0c05dcbb54bfe8396d32f18a9a2a86921d84474c3fcf9b54fb81c21aafd09d
