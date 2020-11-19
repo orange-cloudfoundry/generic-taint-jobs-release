@@ -1,6 +1,0 @@
----
-name: generic-bosh-deployment-taint-jobs
-packages: []
-templates:
-  ignoreme: ignoreme
-properties: {}

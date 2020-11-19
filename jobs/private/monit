@@ -1,0 +1,5 @@
+check process private
+  with pidfile /var/vcap/sys/run/bpm/private/private.pid
+  start program "/var/vcap/jobs/bpm/bin/bpm start private"
+  stop program "/var/vcap/jobs/bpm/bin/bpm stop private"
+  group vcap
