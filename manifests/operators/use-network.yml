@@ -1,0 +1,3 @@
+- type: replace
+  path: /instance_groups/name=generic-bosh-deployment-taint-jobs/networks/name=default/name
+  value: ((network_name))

@@ -1,0 +1,7 @@
+---
+- type: replace
+  path: /releases/name=generic-bosh-deployment-taint-jobs
+  value:
+    name: generic-bosh-deployment-taint-jobs
+    version: create
+    url: file://.
