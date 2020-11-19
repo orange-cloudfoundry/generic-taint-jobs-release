@@ -1,7 +1,7 @@
 ---
 blobstore:
-  provider: swift
+  provider: s3
   options:
-    container_name: generic-bosh-deployment-taint-jobs-boshrelease
-    swift_provider: openstack
-final_name: generic-bosh-deployment-taint-jobs
+    bucket_name: orange-generic-taint-jobs
+final_name: generic-taint-jobs 
+

@@ -1,6 +1,8 @@
 # BOSH release for generic-bosh-deployment-taint-jobs
 
-This BOSH release and deployment manifest deploy a cluster of generic-bosh-deployment-taint-jobs.
+This is a just a utility bosh release, adding generic jobs, to be used by bosh deployment level addon (include/exclude clauses)
+Adding this jobs to a skeleton bosh manifest instane groups will help targeting bosh-addon apply
+
 
 ## Usage
 
