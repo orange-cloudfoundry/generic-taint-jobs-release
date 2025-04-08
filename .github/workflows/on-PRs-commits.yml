@@ -3,7 +3,7 @@ name: create-dev-release-on-PR
 on:
   push:
     branches-ignore:
-      - master
+      - main
     tags-ignore:
       - '*'
 
