@@ -1,0 +1,57 @@
+name: auto-release
+
+on:
+  workflow_dispatch: # to manually force a release on ignore paths
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '.github/**'
+      - .gitignore
+      - CONTRIBUTING.md
+      - README.md
+      - renovate.json5
+      - run-renovate-locally.bash
+
+jobs:
+  build:
+    name: "ship it"
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Bump version
+        id: bump-version
+        uses: ietf-tools/semver-action@778d1d5b7af80aa43f50104116b8363e7fc0d1ef # v1.10.1
+        with:
+          token: ${{ github.token }}
+          branch: master
+          noVersionBumpBehavior: patch
+          majorList: major
+
+      - name: create bosh release
+        id: create-bosh-release
+        uses: orange-cloudfoundry/create-bosh-release-action@fd4ddefcec42563de953491bb56286f8db2e4862 # v1.1.0
+        with:
+          target_branch: ${{github.ref_name}}
+          tag_name: ${{ steps.bump-version.outputs.next}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWS_BOSH_ACCES_KEY_ID: ${{ secrets.AWS_BOSH_ACCES_KEY_ID }}
+          AWS_BOSH_SECRET_ACCES_KEY: ${{ secrets.AWS_BOSH_SECRET_ACCES_KEY }}
+
+      # see https://github.com/ncipollo/release-action
+      - name: create github release
+        id: create-github-release
+        uses: ncipollo/release-action@440c8c1cb0ed28b9f43e4d1d670870f059653174 # v1.16.0
+        with:
+          tag: ${{ steps.create-bosh-release.outputs.tagged_version }}
+          draft: false
+          allowUpdates: false # > indicates if we should update a release if it already exists.
+          generateReleaseNotes: true
+          artifacts: ./${{ steps.create-bosh-release.outputs.file }}
+          artifactContentType: application/zip
+          artifactErrorsFailBuild: true # > indicates if artifact read or upload errors should fail the build.

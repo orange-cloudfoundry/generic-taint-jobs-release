@@ -1,0 +1,69 @@
+name: create-dev-release-on-PR
+
+on:
+  push:
+    branches-ignore:
+      - master
+    tags-ignore:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      # TODO: add caching for cli downloads, see https://github.com/marketplace/actions/cache
+      - name: Install bosh-cli
+        #See https://github.com/marketplace/actions/install-a-binary-from-github-releases
+        uses: jaxxstorm/action-install-gh-release@4304621e8c48d66093a8a214af5d5b5bc3b3d943 # v2.0.0
+        with:
+          repo: cloudfoundry/bosh-cli
+          tag: v7.4.0
+          extension-matching: disable
+          chmod: 0755
+          rename-to: bosh
+
+          # searching for bosh-cli-7.4.0-linux-amd64 with (linux|x86_64|x64|amd64).*(linux|x86_64|x64|amd64).*.(tar.gz|zip)
+          #               bosh-cli-7.4.0-linux-amd64
+
+      - name: Install yq cli
+        #See https://github.com/marketplace/actions/install-a-binary-from-github-releases
+        uses: jaxxstorm/action-install-gh-release@4304621e8c48d66093a8a214af5d5b5bc3b3d943 # v2.0.0
+        with:
+          repo: mikefarah/yq
+          tag: v4.34.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # reduce potential rate limiting
+
+
+      # TODO: optimize to only create a dev release if the blobs.yaml file has some changes
+      # Possibly by setting an env var and checking it into next step
+      # See https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable
+      # and if clause https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsif
+      - name: create bosh dev release
+        id: create-bosh-release
+        uses: orange-cloudfoundry/create-bosh-release-action@fd4ddefcec42563de953491bb56286f8db2e4862 # v1.1.0 # will create dev release when pushed git ref is not a tag
+        with:
+          target_branch: ${{github.ref_name}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWS_BOSH_ACCES_KEY_ID: ${{ secrets.AWS_BOSH_ACCES_KEY_ID }}
+          AWS_BOSH_SECRET_ACCES_KEY: ${{ secrets.AWS_BOSH_SECRET_ACCES_KEY }}
+
+      # See https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts
+      # This creates a zip file containing the k3s-master.tgz file
+
+      # See https://github.com/actions/upload-artifact#zipped-artifact-downloads
+      # > There is currently no way to download artifacts after a workflow run finishes in a format other than a zip or
+      # > to download artifact contents individually. One of the consequences of this limitation is that if a zip is
+      # > uploaded during a workflow run and then downloaded from the UI, there will be a double zip created.
+      - name: Archive bosh dev release tgz
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: archive-bosh-dev-release-tgz
+          path: |
+            ./${{ steps.create-bosh-release.outputs.file }}
